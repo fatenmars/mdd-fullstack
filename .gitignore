@@ -1,0 +1,27 @@
+# ===== Back-end : Java / Spring Boot / Maven =====
+back/target/
+*.class
+*.jar
+*.war
+
+# ===== Front-end : Angular / Node =====
+front/node_modules/
+front/dist/
+front/.angular/
+
+# ===== Fichiers sensibles (secrets, config locale) =====
+# Ne jamais committer les identifiants de base de données, clés JWT, etc.
+*.env
+application-local.properties
+
+# ===== IDE / éditeurs =====
+.idea/
+.vscode/
+*.iml
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
