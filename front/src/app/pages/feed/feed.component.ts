@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from '../../services/article.service';
 import { Article } from '../../models/article';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-feed',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
