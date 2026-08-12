@@ -11,6 +11,8 @@ import { Article } from '../../models/article';
 export class FeedComponent implements OnInit {
   articles: Article[] = [];
   order: string = 'desc';
+  errorMessage: string = '';
+
   constructor(private articleService: ArticleService) {}
 
   ngOnInit(): void {
@@ -18,8 +20,16 @@ export class FeedComponent implements OnInit {
   }
 
   loadFeed(): void {
-    this.articleService.getArticles(this.order).subscribe((articles) => {
-      this.articles = articles;
+    this.articleService.getArticles(this.order).subscribe({
+      next: (articles) => {
+        this.articles = articles;
+        this.errorMessage = '';
+      },
+      error: (error) => {
+        this.errorMessage =
+          "Impossible de charger le fil d'actualité. Réessaie plus tard.";
+        console.error('Erreur chargement du fil :', error);
+      },
     });
   }
 
