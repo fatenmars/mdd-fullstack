@@ -10,6 +10,7 @@ import com.orion.mddapi.dto.ThemeDto;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.entities.Subscription;
 import com.orion.mddapi.entities.Theme;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ArticleService {
@@ -22,13 +23,14 @@ public class ArticleService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public List<ArticleDto> getFeed() {
+    public List<ArticleDto> getFeed(String order) {
         Long userId = 1L;
+        Sort sort = "asc".equals(order) ? Sort.by("createdAt").ascending() : Sort.by("createdAt").descending();
         List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
         List<Theme> themes = subscriptions.stream()
                 .map(Subscription::getTheme)
                 .toList();
-        return articleRepository.findAllByThemeInOrderByCreatedAtDesc(themes)
+        return articleRepository.findAllByThemeIn(themes, sort)
                 .stream()
                 .map(this::convertToDto)
                 .toList();

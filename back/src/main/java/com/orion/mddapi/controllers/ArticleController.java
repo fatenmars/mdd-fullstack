@@ -1,6 +1,7 @@
 package com.orion.mddapi.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.orion.mddapi.services.ArticleService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,8 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleDto> getFeed() {
-        return articleService.getFeed();
+    public List<ArticleDto> getFeed(@RequestParam(name = "order", defaultValue = "desc") String order) {
+        return articleService.getFeed(order);
     }
 
 }
