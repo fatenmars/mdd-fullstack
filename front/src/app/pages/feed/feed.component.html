@@ -9,7 +9,9 @@
   <ul>
     @for (article of articles; track article.id) {
       <li>
-        <strong>{{ article.title }}</strong>
+        <a [routerLink]="['/articles', article.id]">
+          <strong>{{ article.title }}</strong>
+        </a>
         <p>{{ article.content }}</p>
         <p>
           Auteur : {{ article.author.username }} — Thème :
