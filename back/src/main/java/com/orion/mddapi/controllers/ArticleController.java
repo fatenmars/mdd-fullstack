@@ -7,6 +7,8 @@ import com.orion.mddapi.services.ArticleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.orion.mddapi.dto.ArticleDto;
 import java.util.List;
+import com.orion.mddapi.dto.ArticleDetailDto;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/articles")
@@ -21,6 +23,11 @@ public class ArticleController {
     @GetMapping
     public List<ArticleDto> getFeed(@RequestParam(name = "order", defaultValue = "desc") String order) {
         return articleService.getFeed(order);
+    }
+
+    @GetMapping("/{articleId}")
+    public ArticleDetailDto getArticleDetail(@PathVariable Long articleId) {
+        return articleService.getArticleDetail(articleId);
     }
 
 }

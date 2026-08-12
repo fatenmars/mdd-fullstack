@@ -11,16 +11,21 @@ import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.entities.Subscription;
 import com.orion.mddapi.entities.Theme;
 import org.springframework.data.domain.Sort;
+import com.orion.mddapi.dto.ArticleDetailDto;
+import com.orion.mddapi.dto.CommentDto;
 
 @Service
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final CommentService commentService;
 
-    public ArticleService(ArticleRepository articleRepository, SubscriptionRepository subscriptionRepository) {
+    public ArticleService(ArticleRepository articleRepository, SubscriptionRepository subscriptionRepository,
+            CommentService commentService) {
         this.articleRepository = articleRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.commentService = commentService;
     }
 
     public List<ArticleDto> getFeed(String order) {
@@ -41,5 +46,15 @@ public class ArticleService {
         ThemeDto themeDto = new ThemeDto(article.getTheme().getId(), article.getTheme().getTitle());
         return new ArticleDto(article.getId(), article.getTitle(), article.getContent(), article.getCreatedAt(),
                 authorDto, themeDto);
+    }
+
+    public ArticleDetailDto getArticleDetail(Long articleId) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article non trouvé"));
+        AuthorDto authorDto = new AuthorDto(article.getAuthor().getId(), article.getAuthor().getUsername());
+        ThemeDto themeDto = new ThemeDto(article.getTheme().getId(), article.getTheme().getTitle());
+        List<CommentDto> comments = commentService.getCommentsByArticleId(articleId);
+        return new ArticleDetailDto(article.getId(), article.getTitle(), article.getContent(), article.getCreatedAt(),
+                authorDto, themeDto, comments);
     }
 }
