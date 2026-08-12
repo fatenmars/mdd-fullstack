@@ -1,0 +1,18 @@
+<h1>Articles MDD</h1>
+
+<ul>
+  <button (click)="toggleOrder()">
+    Inverser le tri (actuel : {{ order }})
+  </button>
+  @for (article of articles; track article.id) {
+    <li>
+      <strong>{{ article.title }}</strong>
+      <p>{{ article.content }}</p>
+      <p>
+        Auteur : {{ article.author.username }} — Thème :
+        {{ article.theme.title }}
+      </p>
+      <p>Publié le : {{ article.createdAt }}</p>
+    </li>
+  }
+</ul>
