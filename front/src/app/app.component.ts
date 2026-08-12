@@ -1,20 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemeService } from './services/theme.service';
+import { Component } from '@angular/core';
+import { FeedComponent } from './pages/feed/feed.component';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [FeedComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  themes: any[] = [];
-
-  constructor(private themeService: ThemeService) {}
-
-  ngOnInit(): void {
-    this.themeService.getThemes().subscribe((data) => {
-      this.themes = data;
-    });
-  }
-}
+export class AppComponent {}

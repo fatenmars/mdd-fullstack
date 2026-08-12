@@ -94,6 +94,11 @@ public class DevDataInitializer implements CommandLineRunner {
             subscription1.setUser(alice);
             subscription1.setTheme(javascript);
             subscriptionRepository.save(subscription1);
+
+            Subscription subscription2 = new Subscription();
+            subscription2.setUser(alice);
+            subscription2.setTheme(java);
+            subscriptionRepository.save(subscription2);
         }
     }
 }
