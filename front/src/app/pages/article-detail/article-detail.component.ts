@@ -12,6 +12,7 @@ import { Comment } from '../../models/comment';
 })
 export class ArticleDetailComponent implements OnInit {
   article?: ArticleDetail;
+  errorMessage: string = '';
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
@@ -19,8 +20,14 @@ export class ArticleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const articleId = Number(this.route.snapshot.paramMap.get('id'));
-    this.articleService.getArticleById(articleId).subscribe((article) => {
-      this.article = article;
+    this.articleService.getArticleById(articleId).subscribe({
+      next: (article) => {
+        this.article = article;
+      },
+      error: (error) => {
+        this.errorMessage = 'Article introuvable ou erreur de chargement.';
+        console.error("Erreur chargement de l'article :", error);
+      },
     });
   }
 }

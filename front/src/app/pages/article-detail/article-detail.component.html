@@ -1,20 +1,24 @@
-@if (article) {
-  <h1>{{ article.title }}</h1>
-  <p>
-    Thème: {{ article.theme.title }} - Auteur: {{ article.author.username }}
-  </p>
-  <p>Publié le : {{ article.createdAt }}</p>
-  <p>{{ article.content }}</p>
-  <h2>Commentaires</h2>
-  <ul>
-    @for (comment of article.comments; track comment.id) {
-      <li>
-        <p>{{ comment.content }}</p>
-        <p>
-          Auteur: {{ comment.author.username }} - Publié le :
-          {{ comment.createdAt }}
-        </p>
-      </li>
-    }
-  </ul>
+@if (errorMessage) {
+  <p class="error">{{ errorMessage }}</p>
+} @else {
+  @if (article) {
+    <h1>{{ article.title }}</h1>
+    <p>
+      Thème: {{ article.theme.title }} - Auteur: {{ article.author.username }}
+    </p>
+    <p>Publié le : {{ article.createdAt }}</p>
+    <p>{{ article.content }}</p>
+    <h2>Commentaires</h2>
+    <ul>
+      @for (comment of article.comments; track comment.id) {
+        <li>
+          <p>{{ comment.content }}</p>
+          <p>
+            Auteur: {{ comment.author.username }} - Publié le :
+            {{ comment.createdAt }}
+          </p>
+        </li>
+      }
+    </ul>
+  }
 }
