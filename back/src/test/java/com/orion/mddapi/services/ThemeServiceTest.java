@@ -8,7 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.orion.mddapi.dto.ThemeListItemDto;
+import com.orion.mddapi.entities.Subscription;
 import com.orion.mddapi.entities.Theme;
+import com.orion.mddapi.entities.User;
+import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
 import java.util.List;
 
@@ -17,6 +21,9 @@ public class ThemeServiceTest {
 
     @Mock
     private ThemeRepository themeRepository;
+
+    @Mock
+    private SubscriptionRepository subscriptionRepository;
 
     @InjectMocks
     private ThemeService themeService;
@@ -28,18 +35,30 @@ public class ThemeServiceTest {
         Theme theme1 = new Theme();
         theme1.setId(1L);
         theme1.setTitle("JavaScript");
+        theme1.setDescription("desc JS");
 
         Theme theme2 = new Theme();
         theme2.setId(2L);
         theme2.setTitle("Java");
+        theme2.setDescription("desc Java");
 
+        User alice = new User();
+        alice.setId(1L);
+
+        Subscription subscription = new Subscription();
+        subscription.setUser(alice);
+        subscription.setTheme(theme1); // alice suit theme1 seulement
+
+        when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of(subscription));
         when(themeRepository.findAll()).thenReturn(List.of(theme1, theme2));
 
         // Act
-        List<Theme> themes = themeService.getAllThemes();
+        List<ThemeListItemDto> result = themeService.getAllThemes();
 
         // Assert
-        assertThat(themes).hasSize(2);
-        assertThat(themes.get(0).getTitle()).isEqualTo(theme1.getTitle());
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).title()).isEqualTo("JavaScript");
+        assertThat(result.get(0).subscribed()).isTrue();
+        assertThat(result.get(1).subscribed()).isFalse();
     }
 }

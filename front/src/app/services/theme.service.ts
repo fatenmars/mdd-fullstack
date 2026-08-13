@@ -13,4 +13,10 @@ export class ThemeService {
   getThemes(): Observable<Theme[]> {
     return this.http.get<Theme[]>(this.apiUrl);
   }
+  subscribe(themeId: number): Observable<void> {
+    return this.http.post<void>(
+      `http://localhost:8080/users/me/themes/${themeId}`,
+      {},
+    );
+  }
 }
