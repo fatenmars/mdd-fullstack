@@ -7,4 +7,6 @@ import java.util.List;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     List<Subscription> findAllByUserId(Long userId);
+
+    boolean existsByUserIdAndThemeId(Long userId, Long themeId);
 }
