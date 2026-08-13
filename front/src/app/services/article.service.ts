@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Article } from '../models/article';
 import { ArticleDetail } from '../models/articleDetail';
+import { CommentModel } from '../models/commentModel';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,5 +22,13 @@ export class ArticleService {
     themeId: number;
   }): Observable<Article> {
     return this.http.post<Article>(this.apiUrl, payload);
+  }
+  addComment(articleId: number, content: string): Observable<CommentModel> {
+    return this.http.post<CommentModel>(
+      `${this.apiUrl}/${articleId}/comments`,
+      {
+        content,
+      },
+    );
   }
 }
