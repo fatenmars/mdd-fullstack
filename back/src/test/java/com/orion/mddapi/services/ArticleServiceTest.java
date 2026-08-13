@@ -4,7 +4,6 @@ import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
 import com.orion.mddapi.repositories.UserRepository;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +29,6 @@ import com.orion.mddapi.dto.CreateArticleRequest;
 import com.orion.mddapi.dto.AuthorDto;
 import com.orion.mddapi.exceptions.ArticleNotFoundException;
 import com.orion.mddapi.exceptions.ThemeNotFoundException;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
