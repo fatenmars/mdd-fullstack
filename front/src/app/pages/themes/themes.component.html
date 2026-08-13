@@ -3,18 +3,21 @@
 @if (errorMessage) {
   <p>{{ errorMessage }}</p>
 } @else {
+  @if (subscribeErrorMessage) {
+    <p>{{ subscribeErrorMessage }}</p>
+  }
   <ul>
     @for (theme of themes; track theme.id) {
       <li>
         <strong>{{ theme.title }}</strong>
         <p>{{ theme.description }}</p>
+        <button
+          (click)="subscribeToTheme(theme.id)"
+          [disabled]="theme.subscribed"
+        >
+          {{ theme.subscribed ? "Déjà abonné" : "S'abonner" }}
+        </button>
       </li>
-      <button
-        (click)="subscribeToTheme(theme.id)"
-        [disabled]="theme.subscribed"
-      >
-        {{ theme.subscribed ? "Déjà abonné" : "S'abonner" }}
-      </button>
     }
   </ul>
 }

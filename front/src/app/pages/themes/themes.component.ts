@@ -11,6 +11,7 @@ import { ThemeService } from '../../services/theme.service';
 export class ThemesComponent implements OnInit {
   themes: Theme[] = [];
   errorMessage: string = '';
+  subscribeErrorMessage = '';
 
   constructor(private themeService: ThemeService) {}
 
@@ -38,7 +39,8 @@ export class ThemesComponent implements OnInit {
         this.loadThemes();
       },
       error: (error) => {
-        this.errorMessage = "Impossible de s'abonner. Réessaie plus tard.";
+        this.subscribeErrorMessage =
+          "Impossible de s'abonner. Réessaie plus tard.";
         console.error('Erreur abonnement :', error);
       },
     });
