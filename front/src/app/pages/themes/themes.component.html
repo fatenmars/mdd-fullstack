@@ -1,0 +1,15 @@
+<h1>Thèmes MDD</h1>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else {
+  <ul>
+    @for (theme of themes; track theme.id) {
+      <li>
+        <strong>{{ theme.title }}</strong>
+        <p>{{ theme.description }}</p>
+        <p>Créé le : {{ theme.createdAt }}</p>
+      </li>
+    }
+  </ul>
+}
