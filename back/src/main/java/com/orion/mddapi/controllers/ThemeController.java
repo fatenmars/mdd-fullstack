@@ -1,6 +1,6 @@
 package com.orion.mddapi.controllers;
 
-import com.orion.mddapi.entities.Theme;
+import com.orion.mddapi.dto.ThemeListItemDto;
 import com.orion.mddapi.services.ThemeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class ThemeController {
     }
 
     @GetMapping
-    public List<Theme> getAllThemes() {
+    public List<ThemeListItemDto> getAllThemes() {
         return themeService.getAllThemes();
     }
 }
