@@ -2,6 +2,9 @@ package com.orion.mddapi.services;
 
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.SubscriptionRepository;
+import com.orion.mddapi.repositories.ThemeRepository;
+import com.orion.mddapi.repositories.UserRepository;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +26,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Optional;
 import com.orion.mddapi.dto.ArticleDetailDto;
 import com.orion.mddapi.dto.CommentDto;
+import com.orion.mddapi.dto.CreateArticleRequest;
 import com.orion.mddapi.dto.AuthorDto;
 import com.orion.mddapi.exceptions.ArticleNotFoundException;
+import com.orion.mddapi.exceptions.ThemeNotFoundException;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +44,12 @@ class ArticleServiceTest {
 
     @Mock
     private CommentService commentService;
+
+    @Mock
+    private ThemeRepository themeRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private ArticleService articleService;
@@ -122,5 +134,58 @@ class ArticleServiceTest {
         // Act + Assert
         assertThatThrownBy(() -> articleService.getArticleDetail(999L))
                 .isInstanceOf(ArticleNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("Créer un article renvoie l'article créé")
+    void createArticle_returnsCreatedArticle() {
+        // Arrange
+        User alice = new User();
+        alice.setId(1L);
+        alice.setUsername("alice");
+
+        Theme theme = new Theme();
+        theme.setId(1L);
+        theme.setTitle("JavaScript");
+
+        Article saved = new Article();
+        saved.setId(4L);
+        saved.setTitle("Nouvel article");
+        saved.setContent("Contenu");
+        saved.setAuthor(alice);
+        saved.setTheme(theme);
+        saved.setCreatedAt(LocalDateTime.now());
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(themeRepository.findById(1L)).thenReturn(Optional.of(theme));
+        when(articleRepository.save(any(Article.class))).thenReturn(saved);
+
+        CreateArticleRequest request = new CreateArticleRequest("Nouvel article", "Contenu", 1L);
+
+        // Act
+        ArticleDto result = articleService.createArticle(request);
+
+        // Assert
+        assertThat(result.title()).isEqualTo("Nouvel article");
+        assertThat(result.author().username()).isEqualTo("alice");
+        assertThat(result.theme().title()).isEqualTo("JavaScript");
+    }
+
+    @Test
+    @DisplayName("Créer un article avec un thème inexistant lève ThemeNotFoundException")
+    void createArticle_themeNotFound_throwsException() {
+        // Arrange
+        User alice = new User();
+        alice.setId(1L);
+        alice.setUsername("alice");
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(themeRepository.findById(999L)).thenReturn(Optional.empty());
+
+        CreateArticleRequest request = new CreateArticleRequest("Titre", "Contenu", 999L);
+
+        // Act + Assert
+        assertThatThrownBy(() -> articleService.createArticle(request))
+                .isInstanceOf(ThemeNotFoundException.class);
     }
 }

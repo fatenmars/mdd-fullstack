@@ -1,0 +1,29 @@
+<h1>Créer un article</h1>
+
+@if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+}
+
+<form (ngSubmit)="onSubmit()">
+  <label>
+    Titre :
+    <input type="text" name="title" [(ngModel)]="title" />
+  </label>
+
+  <label>
+    Thème :
+    <select name="themeId" [(ngModel)]="themeId">
+      <option [ngValue]="undefined" disabled>-- Choisir un thème --</option>
+      @for (theme of themes; track theme.id) {
+        <option [ngValue]="theme.id">{{ theme.title }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Contenu :
+    <textarea name="content" [(ngModel)]="content"></textarea>
+  </label>
+
+  <button type="submit">Créer</button>
+</form>

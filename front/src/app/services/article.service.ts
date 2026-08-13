@@ -15,4 +15,11 @@ export class ArticleService {
   getArticleById(id: number): Observable<ArticleDetail> {
     return this.http.get<ArticleDetail>(`${this.apiUrl}/${id}`);
   }
+  createArticle(payload: {
+    title: string;
+    content: string;
+    themeId: number;
+  }): Observable<Article> {
+    return this.http.post<Article>(this.apiUrl, payload);
+  }
 }
