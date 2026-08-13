@@ -5,11 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.orion.mddapi.dto.CommentDto;
 import com.orion.mddapi.dto.CreateCommentRequest;
 import com.orion.mddapi.services.CommentService;
-
 import jakarta.validation.Valid;
 
 @RestController
