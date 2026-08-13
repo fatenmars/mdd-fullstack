@@ -31,4 +31,16 @@ export class ThemesComponent implements OnInit {
       },
     });
   }
+
+  subscribeToTheme(themeId: number): void {
+    this.themeService.subscribe(themeId).subscribe({
+      next: () => {
+        this.loadThemes();
+      },
+      error: (error) => {
+        this.errorMessage = "Impossible de s'abonner. Réessaie plus tard.";
+        console.error('Erreur abonnement :', error);
+      },
+    });
+  }
 }

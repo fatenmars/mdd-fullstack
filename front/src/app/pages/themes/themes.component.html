@@ -8,8 +8,13 @@
       <li>
         <strong>{{ theme.title }}</strong>
         <p>{{ theme.description }}</p>
-        <p>Créé le : {{ theme.createdAt }}</p>
       </li>
+      <button
+        (click)="subscribeToTheme(theme.id)"
+        [disabled]="theme.subscribed"
+      >
+        {{ theme.subscribed ? "Déjà abonné" : "S'abonner" }}
+      </button>
     }
   </ul>
 }
