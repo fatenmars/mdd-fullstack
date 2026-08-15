@@ -39,4 +39,10 @@ public class SubscriptionService {
         subscriptionRepository.save(subscription);
     }
 
+    public void unsubscribe(Long themeId) {
+        Long userId = 1L;
+        subscriptionRepository.findByUserIdAndThemeId(userId, themeId)
+                .ifPresent(subscription -> subscriptionRepository.delete(subscription));
+    }
+
 }
