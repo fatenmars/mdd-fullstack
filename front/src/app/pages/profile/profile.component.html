@@ -8,9 +8,13 @@
     <ul>
       @for (subscription of profile.subscriptions; track subscription.id) {
         <li>
-          <p>{{ subscription.title }}</p>
+          {{ subscription.title }}
+          <button (click)="unsubscribe(subscription.id)">Se désabonner</button>
         </li>
       }
     </ul>
+    @if (unsubscribeErrorMessage) {
+      <p>{{ unsubscribeErrorMessage }}</p>
+    }
   }
 }

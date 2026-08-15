@@ -19,4 +19,9 @@ export class ThemeService {
       {},
     );
   }
+  unsubscribe(themeId: number): Observable<void> {
+    return this.http.delete<void>(
+      `http://localhost:8080/users/me/themes/${themeId}`,
+    );
+  }
 }
