@@ -1,8 +1,11 @@
 package com.orion.mddapi.services;
 
 import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.orion.mddapi.dto.ThemeDto;
+import com.orion.mddapi.dto.UpdateProfileRequest;
 import com.orion.mddapi.dto.UserProfileDto;
 import com.orion.mddapi.entities.User;
 import com.orion.mddapi.repositories.SubscriptionRepository;
@@ -13,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserService(UserRepository userRepository, SubscriptionRepository subscriptionRepository) {
         this.userRepository = userRepository;
@@ -30,6 +34,16 @@ public class UserService {
 
         return userProfile;
 
+    }
+
+    public UserProfileDto updateProfile(UpdateProfileRequest request) {
+        User currentUser = this.userRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+        currentUser.setEmail(request.email());
+        currentUser.setUsername(request.username());
+        currentUser.setPassword(passwordEncoder.encode((request.password())));
+        userRepository.save(currentUser);
+        return getCurrentUserProfile();
     }
 
 }
