@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { UserProfile } from '../../models/userProfile';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,8 +12,12 @@ import { UserProfile } from '../../models/userProfile';
 export class ProfileComponent implements OnInit {
   profile?: UserProfile;
   errorMessage = '';
+  unsubscribeErrorMessage = '';
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private themeService: ThemeService,
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
@@ -26,6 +31,19 @@ export class ProfileComponent implements OnInit {
       error: (error) => {
         this.errorMessage = 'Utilisateur introuvable ou erreur de chargement.';
         console.error('Erreur chargement :', error);
+      },
+    });
+  }
+
+  unsubscribe(themeId: number): void {
+    this.themeService.unsubscribe(themeId).subscribe({
+      next: () => {
+        this.loadProfile();
+      },
+      error: (error) => {
+        this.unsubscribeErrorMessage =
+          'Impossible de se désabonner. Réessaie plus tard.';
+        console.error('Erreur désabonnement :', error);
       },
     });
   }
