@@ -1,0 +1,16 @@
+@if (errorMessage) {
+  <p class="error">{{ errorMessage }}</p>
+} @else {
+  @if (profile) {
+    <p>Email: {{ profile.email }}</p>
+    <p>Username: {{ profile.username }}</p>
+    <p>Thèmes suivis :</p>
+    <ul>
+      @for (subscription of profile.subscriptions; track subscription.id) {
+        <li>
+          <p>{{ subscription.title }}</p>
+        </li>
+      }
+    </ul>
+  }
+}
