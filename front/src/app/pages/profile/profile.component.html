@@ -16,5 +16,26 @@
     @if (unsubscribeErrorMessage) {
       <p>{{ unsubscribeErrorMessage }}</p>
     }
+    <h2>Modifier mon profil</h2>
+
+    @if (editErrorMessage) {
+      <p>{{ editErrorMessage }}</p>
+    }
+
+    <form (ngSubmit)="updateProfile()">
+      <label>
+        Email :
+        <input type="email" name="editEmail" [(ngModel)]="editEmail" />
+      </label>
+      <label>
+        Nom d'utilisateur :
+        <input type="text" name="editUsername" [(ngModel)]="editUsername" />
+      </label>
+      <label>
+        Nouveau mot de passe :
+        <input type="password" name="editPassword" [(ngModel)]="editPassword" />
+      </label>
+      <button type="submit">Enregistrer</button>
+    </form>
   }
 }

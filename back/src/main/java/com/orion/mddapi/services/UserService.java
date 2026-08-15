@@ -41,7 +41,9 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
         currentUser.setEmail(request.email());
         currentUser.setUsername(request.username());
-        currentUser.setPassword(passwordEncoder.encode((request.password())));
+        if (request.password() != null && !request.password().isBlank()) {
+            currentUser.setPassword(passwordEncoder.encode(request.password()));
+        }
         userRepository.save(currentUser);
         return getCurrentUserProfile();
     }
