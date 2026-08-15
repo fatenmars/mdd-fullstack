@@ -80,4 +80,29 @@ class SubscriptionServiceTest {
         assertThatThrownBy(() -> subscriptionService.subscribe(999L))
                 .isInstanceOf(ThemeNotFoundException.class);
     }
+
+    @Test
+    @DisplayName("Se désabonner supprime l'abonnement s'il existe")
+    void unsubscribe_deletesSubscription() {
+        Subscription subscription = new Subscription();
+        subscription.setId(10L);
+
+        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L))
+                .thenReturn(Optional.of(subscription));
+
+        subscriptionService.unsubscribe(3L);
+
+        verify(subscriptionRepository).delete(subscription);
+    }
+
+    @Test
+    @DisplayName("Se désabonner ne fait rien si l'utilisateur n'est pas abonné")
+    void unsubscribe_notSubscribed_doesNothing() {
+        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L))
+                .thenReturn(Optional.empty());
+
+        subscriptionService.unsubscribe(3L);
+
+        verify(subscriptionRepository, never()).delete(any(Subscription.class));
+    }
 }
