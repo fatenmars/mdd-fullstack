@@ -1,5 +1,6 @@
 package com.orion.mddapi.services;
 
+import com.orion.mddapi.dto.UpdateProfileRequest;
 import com.orion.mddapi.dto.UserProfileDto;
 import com.orion.mddapi.entities.Subscription;
 import com.orion.mddapi.entities.Theme;
@@ -57,5 +58,52 @@ class UserServiceTest {
         assertThat(result.username()).isEqualTo("alice");
         assertThat(result.subscriptions()).hasSize(1);
         assertThat(result.subscriptions().get(0).title()).isEqualTo("JavaScript");
+    }
+
+    @Test
+    @DisplayName("Modifier le profil met à jour email/username et hache le mot de passe fourni")
+    void updateProfile_withPassword_updatesAndHashes() {
+        // Arrange
+        User alice = new User();
+        alice.setId(1L);
+        alice.setEmail("old@mail.com");
+        alice.setUsername("oldName");
+        alice.setPassword("oldHash");
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of());
+
+        UpdateProfileRequest request = new UpdateProfileRequest("new@mail.com", "newName", "Password1!");
+
+        // Act
+        UserProfileDto result = userService.updateProfile(request);
+
+        // Assert
+        assertThat(result.email()).isEqualTo("new@mail.com");
+        assertThat(result.username()).isEqualTo("newName");
+        assertThat(alice.getPassword()).isNotEqualTo("Password1!");
+        assertThat(alice.getPassword()).isNotEqualTo("oldHash");
+    }
+
+    @Test
+    @DisplayName("Modifier le profil ne change pas le mot de passe s'il est vide")
+    void updateProfile_blankPassword_keepsPassword() {
+        // Arrange
+        User alice = new User();
+        alice.setId(1L);
+        alice.setEmail("old@mail.com");
+        alice.setUsername("oldName");
+        alice.setPassword("oldHash");
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of());
+
+        UpdateProfileRequest request = new UpdateProfileRequest("new@mail.com", "newName", "");
+
+        // Act
+        userService.updateProfile(request);
+
+        // Assert
+        assertThat(alice.getPassword()).isEqualTo("oldHash");
     }
 }

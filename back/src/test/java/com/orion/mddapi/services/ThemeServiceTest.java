@@ -47,7 +47,7 @@ public class ThemeServiceTest {
 
         Subscription subscription = new Subscription();
         subscription.setUser(alice);
-        subscription.setTheme(theme1); // alice suit theme1 seulement
+        subscription.setTheme(theme1);
 
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of(subscription));
         when(themeRepository.findAll()).thenReturn(List.of(theme1, theme2));
