@@ -24,14 +24,12 @@ export class CreateArticleComponent implements OnInit {
     private router: Router,
   ) {}
   ngOnInit(): void {
-    // au chargement : on prépare le menu déroulant
     this.themeService.getThemes().subscribe((themes) => {
       this.themes = themes;
     });
   }
 
   onSubmit(): void {
-    // au clic : on crée l'article
     const payload = {
       title: this.title,
       content: this.content,
