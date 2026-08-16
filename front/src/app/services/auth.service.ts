@@ -15,4 +15,23 @@ export class AuthService {
   }): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/register`, payload);
   }
+
+  login(payload: {
+    identifier: string;
+    password: string;
+  }): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, payload);
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
 }
