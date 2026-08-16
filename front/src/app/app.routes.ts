@@ -4,6 +4,7 @@ import { ArticleDetailComponent } from './pages/article-detail/article-detail.co
 import { CreateArticleComponent } from './pages/create-article/create-article.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: FeedComponent },
@@ -11,4 +12,5 @@ export const routes: Routes = [
   { path: 'articles/:id', component: ArticleDetailComponent },
   { path: 'themes', component: ThemesComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'register', component: RegisterComponent },
 ];
