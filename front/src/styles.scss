@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Couleurs */
+  --color-primary: #7763C5;
+  --color-primary-dark: #59409e;
+  --color-text: #1f2933;
+  --color-text-muted: #6b7280;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f4fa;
+  --color-border: #e5e7eb;
+  --color-error: #d64545;
+
+  /* Typographie */
+  --font-base: "Inter", system-ui, sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+
+  /* Espacements */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Divers */
+  --radius: 8px;
+  --max-width: 900px;
+}
