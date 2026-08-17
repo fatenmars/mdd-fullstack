@@ -7,6 +7,7 @@ import com.orion.mddapi.entities.Theme;
 import com.orion.mddapi.entities.User;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +26,9 @@ class UserServiceTest {
 
     @Mock
     private SubscriptionRepository subscriptionRepository;
+
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
 
     @InjectMocks
     private UserService userService;
@@ -47,7 +50,7 @@ class UserServiceTest {
         subscription.setUser(alice);
         subscription.setTheme(theme);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of(subscription));
 
         // Act
@@ -70,7 +73,7 @@ class UserServiceTest {
         alice.setUsername("oldName");
         alice.setPassword("oldHash");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of());
 
         UpdateProfileRequest request = new UpdateProfileRequest("new@mail.com", "newName", "Password1!");
@@ -95,7 +98,7 @@ class UserServiceTest {
         alice.setUsername("oldName");
         alice.setPassword("oldHash");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of());
 
         UpdateProfileRequest request = new UpdateProfileRequest("new@mail.com", "newName", "");

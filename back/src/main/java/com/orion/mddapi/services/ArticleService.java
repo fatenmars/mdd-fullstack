@@ -19,28 +19,29 @@ import com.orion.mddapi.exceptions.ArticleNotFoundException;
 import com.orion.mddapi.exceptions.ThemeNotFoundException;
 import com.orion.mddapi.repositories.ThemeRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 @Service
 public class ArticleService {
 
+        private final AuthenticatedUserProvider authenticatedUserProvider;
         private final ArticleRepository articleRepository;
         private final SubscriptionRepository subscriptionRepository;
         private final CommentService commentService;
         private final ThemeRepository themeRepository;
-        private final UserRepository userRepository;
 
         public ArticleService(ArticleRepository articleRepository, SubscriptionRepository subscriptionRepository,
                         CommentService commentService, ThemeRepository themeRepository,
-                        UserRepository userRespository) {
+                        UserRepository userRespository, AuthenticatedUserProvider authenticatedUserProvider) {
                 this.articleRepository = articleRepository;
                 this.subscriptionRepository = subscriptionRepository;
                 this.commentService = commentService;
                 this.themeRepository = themeRepository;
-                this.userRepository = userRespository;
+                this.authenticatedUserProvider = authenticatedUserProvider;
         }
 
         public List<ArticleDto> getFeed(String order) {
-                Long userId = 1L;
+                Long userId = this.authenticatedUserProvider.getCurrentUser().getId();
                 Sort sort = "asc".equals(order) ? Sort.by("createdAt").ascending() : Sort.by("createdAt").descending();
                 List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
                 List<Theme> themes = subscriptions.stream()
@@ -72,8 +73,7 @@ public class ArticleService {
         }
 
         public ArticleDto createArticle(CreateArticleRequest request) {
-                User author = userRepository.findById(1L)
-                                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+                User author = authenticatedUserProvider.getCurrentUser();
 
                 Theme theme = themeRepository.findById(request.themeId()).orElseThrow(
                                 () -> new ThemeNotFoundException("Thème introuvable (id: " + request.themeId() + ")"));

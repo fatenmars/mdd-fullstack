@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.CommentRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 import com.orion.mddapi.entities.Comment;
 import com.orion.mddapi.entities.User;
 import com.orion.mddapi.exceptions.ArticleNotFoundException;
@@ -17,14 +18,14 @@ import com.orion.mddapi.dto.AuthorDto;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
+    private final AuthenticatedUserProvider authenticatedUserProvider;
 
     public CommentService(CommentRepository commentRepository, UserRepository userRepository,
-            ArticleRepository articleRepository) {
+            ArticleRepository articleRepository, AuthenticatedUserProvider authenticatedUserProvider) {
         this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
         this.articleRepository = articleRepository;
+        this.authenticatedUserProvider = authenticatedUserProvider;
     }
 
     public List<CommentDto> getCommentsByArticleId(Long articleId) {
@@ -40,8 +41,8 @@ public class CommentService {
     }
 
     public CommentDto addComment(Long articleId, CreateCommentRequest request) {
-        User author = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+        User author = this.authenticatedUserProvider.getCurrentUser();
+
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException("Article introuvable (id: " + articleId + ")"));
         Comment comment = new Comment();

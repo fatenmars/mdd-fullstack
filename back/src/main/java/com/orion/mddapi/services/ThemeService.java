@@ -3,6 +3,8 @@ package com.orion.mddapi.services;
 import com.orion.mddapi.dto.ThemeListItemDto;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
@@ -13,14 +15,17 @@ public class ThemeService {
 
     private final ThemeRepository themeRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final AuthenticatedUserProvider authenticatedUserProvider;
 
-    public ThemeService(ThemeRepository themeRepository, SubscriptionRepository subscriptionRepository) {
+    public ThemeService(ThemeRepository themeRepository, SubscriptionRepository subscriptionRepository,
+            AuthenticatedUserProvider authenticatedUserProvider) {
         this.themeRepository = themeRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.authenticatedUserProvider = authenticatedUserProvider;
     }
 
     public List<ThemeListItemDto> getAllThemes() {
-        Long userId = 1L;
+        Long userId = this.authenticatedUserProvider.getCurrentUser().getId();
 
         Set<Long> subscribedThemeIds = subscriptionRepository.findAllByUserId(userId).stream()
                 .map(subscription -> subscription.getTheme().getId()).collect(Collectors.toSet());

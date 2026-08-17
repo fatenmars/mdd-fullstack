@@ -10,6 +10,7 @@ import com.orion.mddapi.dto.UserProfileDto;
 import com.orion.mddapi.entities.User;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 @Service
 public class UserService {
@@ -17,15 +18,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final AuthenticatedUserProvider authenticatedUserProvider;
 
-    public UserService(UserRepository userRepository, SubscriptionRepository subscriptionRepository) {
+    public UserService(UserRepository userRepository, SubscriptionRepository subscriptionRepository,
+            AuthenticatedUserProvider authenticatedUserProvider) {
         this.userRepository = userRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.authenticatedUserProvider = authenticatedUserProvider;
     }
 
     public UserProfileDto getCurrentUserProfile() {
-        User currentUser = this.userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+        User currentUser = this.authenticatedUserProvider.getCurrentUser();
         List<ThemeDto> subscriptions = this.subscriptionRepository.findAllByUserId(currentUser.getId()).stream()
                 .map(sub -> new ThemeDto(sub.getTheme().getId(), sub.getTheme().getTitle())).toList();
 
@@ -37,8 +40,7 @@ public class UserService {
     }
 
     public UserProfileDto updateProfile(UpdateProfileRequest request) {
-        User currentUser = this.userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+        User currentUser = this.authenticatedUserProvider.getCurrentUser();
         currentUser.setEmail(request.email());
         currentUser.setUsername(request.username());
         if (request.password() != null && !request.password().isBlank()) {

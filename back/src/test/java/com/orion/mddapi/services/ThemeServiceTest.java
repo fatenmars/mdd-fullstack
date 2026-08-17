@@ -14,6 +14,7 @@ import com.orion.mddapi.entities.Theme;
 import com.orion.mddapi.entities.User;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,6 +25,9 @@ public class ThemeServiceTest {
 
     @Mock
     private SubscriptionRepository subscriptionRepository;
+
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
 
     @InjectMocks
     private ThemeService themeService;
@@ -49,6 +53,7 @@ public class ThemeServiceTest {
         subscription.setUser(alice);
         subscription.setTheme(theme1);
 
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of(subscription));
         when(themeRepository.findAll()).thenReturn(List.of(theme1, theme2));
 
