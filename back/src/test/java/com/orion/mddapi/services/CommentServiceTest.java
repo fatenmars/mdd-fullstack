@@ -9,6 +9,8 @@ import com.orion.mddapi.exceptions.ArticleNotFoundException;
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.CommentRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +38,9 @@ class CommentServiceTest {
     @Mock
     private ArticleRepository articleRepository;
 
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
+
     @InjectMocks
     private CommentService commentService;
 
@@ -56,7 +61,7 @@ class CommentServiceTest {
         saved.setAuthor(alice);
         saved.setCreatedAt(LocalDateTime.now());
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(articleRepository.findById(1L)).thenReturn(Optional.of(article));
         when(commentRepository.save(any(Comment.class))).thenReturn(saved);
 
@@ -78,7 +83,8 @@ class CommentServiceTest {
         alice.setId(1L);
         alice.setUsername("alice");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
+
         when(articleRepository.findById(999L)).thenReturn(Optional.empty());
 
         CreateCommentRequest request = new CreateCommentRequest("Contenu");

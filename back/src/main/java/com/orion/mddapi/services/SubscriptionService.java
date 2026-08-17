@@ -7,25 +7,24 @@ import com.orion.mddapi.entities.User;
 import com.orion.mddapi.exceptions.ThemeNotFoundException;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
-import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 @Service
 public class SubscriptionService {
 
-    private final UserRepository userRepository;
     private final ThemeRepository themeRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final AuthenticatedUserProvider authenticatedUserProvider;
 
-    public SubscriptionService(SubscriptionRepository subscriptionRepository, UserRepository userRepository,
-            ThemeRepository themeRepository) {
+    public SubscriptionService(SubscriptionRepository subscriptionRepository,
+            ThemeRepository themeRepository, AuthenticatedUserProvider authenticatedUserProvider) {
         this.subscriptionRepository = subscriptionRepository;
-        this.userRepository = userRepository;
         this.themeRepository = themeRepository;
+        this.authenticatedUserProvider = authenticatedUserProvider;
     }
 
     public void subscribe(Long themeId) {
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Utilisateur courant introuvable"));
+        User user = authenticatedUserProvider.getCurrentUser();
 
         Theme theme = themeRepository.findById(themeId)
                 .orElseThrow(() -> new ThemeNotFoundException("Thème introuvable (id: " + themeId + ")"));
@@ -40,9 +39,9 @@ public class SubscriptionService {
     }
 
     public void unsubscribe(Long themeId) {
-        Long userId = 1L;
+        Long userId = authenticatedUserProvider.getCurrentUser().getId();
+
         subscriptionRepository.findByUserIdAndThemeId(userId, themeId)
                 .ifPresent(subscription -> subscriptionRepository.delete(subscription));
     }
-
 }

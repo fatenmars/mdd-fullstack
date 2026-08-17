@@ -4,6 +4,7 @@ import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
 import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +50,9 @@ class ArticleServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
+
     @InjectMocks
     private ArticleService articleService;
 
@@ -80,6 +84,7 @@ class ArticleServiceTest {
 
         when(subscriptionRepository.findAllByUserId(1L)).thenReturn(List.of(subscription));
         when(articleRepository.findAllByThemeIn(anyList(), any(Sort.class))).thenReturn(List.of(article));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
 
         // Act
         List<ArticleDto> feed = articleService.getFeed("desc");
@@ -154,7 +159,7 @@ class ArticleServiceTest {
         saved.setTheme(theme);
         saved.setCreatedAt(LocalDateTime.now());
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(themeRepository.findById(1L)).thenReturn(Optional.of(theme));
         when(articleRepository.save(any(Article.class))).thenReturn(saved);
 
@@ -177,7 +182,7 @@ class ArticleServiceTest {
         alice.setId(1L);
         alice.setUsername("alice");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(themeRepository.findById(999L)).thenReturn(Optional.empty());
 
         CreateArticleRequest request = new CreateArticleRequest("Titre", "Contenu", 999L);

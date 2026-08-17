@@ -6,7 +6,7 @@ import com.orion.mddapi.entities.User;
 import com.orion.mddapi.exceptions.ThemeNotFoundException;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
-import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.security.AuthenticatedUserProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
 class SubscriptionServiceTest {
 
     @Mock
-    private UserRepository userRepository;
-    @Mock
     private ThemeRepository themeRepository;
     @Mock
     private SubscriptionRepository subscriptionRepository;
+    @Mock
+    private AuthenticatedUserProvider authenticatedUserProvider;
 
     @InjectMocks
     private SubscriptionService subscriptionService;
@@ -43,7 +43,7 @@ class SubscriptionServiceTest {
         Theme theme = new Theme();
         theme.setId(3L);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(themeRepository.findById(3L)).thenReturn(Optional.of(theme));
         when(subscriptionRepository.existsByUserIdAndThemeId(1L, 3L)).thenReturn(false);
 
@@ -60,7 +60,7 @@ class SubscriptionServiceTest {
         Theme theme = new Theme();
         theme.setId(3L);
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(themeRepository.findById(3L)).thenReturn(Optional.of(theme));
         when(subscriptionRepository.existsByUserIdAndThemeId(1L, 3L)).thenReturn(true);
 
@@ -74,7 +74,8 @@ class SubscriptionServiceTest {
     void subscribe_themeNotFound_throws() {
         User alice = new User();
         alice.setId(1L);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(alice));
+
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
         when(themeRepository.findById(999L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> subscriptionService.subscribe(999L))
@@ -84,11 +85,13 @@ class SubscriptionServiceTest {
     @Test
     @DisplayName("Se désabonner supprime l'abonnement s'il existe")
     void unsubscribe_deletesSubscription() {
+        User alice = new User();
+        alice.setId(1L);
         Subscription subscription = new Subscription();
         subscription.setId(10L);
 
-        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L))
-                .thenReturn(Optional.of(subscription));
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
+        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L)).thenReturn(Optional.of(subscription));
 
         subscriptionService.unsubscribe(3L);
 
@@ -98,8 +101,11 @@ class SubscriptionServiceTest {
     @Test
     @DisplayName("Se désabonner ne fait rien si l'utilisateur n'est pas abonné")
     void unsubscribe_notSubscribed_doesNothing() {
-        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L))
-                .thenReturn(Optional.empty());
+        User alice = new User();
+        alice.setId(1L);
+
+        when(authenticatedUserProvider.getCurrentUser()).thenReturn(alice);
+        when(subscriptionRepository.findByUserIdAndThemeId(1L, 3L)).thenReturn(Optional.empty());
 
         subscriptionService.unsubscribe(3L);
 
