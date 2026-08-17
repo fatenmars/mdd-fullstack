@@ -28,7 +28,17 @@ export class RegisterComponent {
     };
     this.authService.register(payload).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.authService
+          .login({ identifier: this.email, password: this.password })
+          .subscribe({
+            next: (response) => {
+              this.authService.saveToken(response.token);
+              this.router.navigate(['/']);
+            },
+            error: () => {
+              this.router.navigate(['/login']);
+            },
+          });
       },
       error: (error) => {
         if (error.status === 409) {

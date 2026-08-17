@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from '../../services/article.service';
 import { Article } from '../../models/article';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-feed',
@@ -14,7 +15,11 @@ export class FeedComponent implements OnInit {
   order: string = 'desc';
   errorMessage: string = '';
 
-  constructor(private articleService: ArticleService) {}
+  constructor(
+    private articleService: ArticleService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadFeed();
@@ -37,5 +42,10 @@ export class FeedComponent implements OnInit {
   toggleOrder(): void {
     this.order = this.order === 'desc' ? 'asc' : 'desc';
     this.loadFeed();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
