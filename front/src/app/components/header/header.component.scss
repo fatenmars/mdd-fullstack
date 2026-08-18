@@ -27,7 +27,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: #A40F0F;          /* rouge maquette (≠ --color-error) */
+  color: #A40F0F;
   font-weight: 700;
   font-size: 14px;
 }
@@ -46,7 +46,7 @@
 .header__profile.header__link--active { color: var(--color-primary); }
 
 .header__burger {
-  display: none;           /* caché en desktop */
+  display: none;
   background: none;
   border: none;
   padding: 0;
@@ -57,6 +57,8 @@
 .header__backdrop { display: none; }
 
 @media (max-width: 768px) {
+  .header.header--auth { display: none; }
+
   .header__burger { display: inline-flex; }
 
   .header__logo img { width: 92px; }
@@ -86,10 +88,7 @@
     transform: translateX(100%);
     transition: none;
   }
-  .header__nav--open {
-    transform: translateX(0);
-    transition: transform 0.25s ease;
-  }
+  .header__nav--open { transform: translateX(0); transition: transform 0.25s ease; }
 
   .header__profile { margin-top: auto; }
 }
