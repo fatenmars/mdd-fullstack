@@ -1,0 +1,78 @@
+@if (variant === "connected") {
+  <header class="header">
+    <a routerLink="/" class="header__logo" (click)="closeMenu()">
+      <img src="logo.png" alt="MDD" />
+    </a>
+
+    <button
+      type="button"
+      class="header__burger"
+      (click)="toggleMenu()"
+      aria-label="Menu"
+      [attr.aria-expanded]="menuOpen"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+
+    @if (menuOpen) {
+      <div class="header__backdrop" (click)="closeMenu()"></div>
+    }
+
+    <nav class="header__nav" [class.header__nav--open]="menuOpen">
+      <button type="button" class="header__logout" (click)="logout()">
+        Se déconnecter
+      </button>
+      <a
+        routerLink="/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="closeMenu()"
+        >Articles</a
+      >
+      <a
+        routerLink="/themes"
+        routerLinkActive="header__link--active"
+        class="header__link"
+        (click)="closeMenu()"
+        >Thèmes</a
+      >
+      <a
+        routerLink="/profile"
+        routerLinkActive="header__link--active"
+        class="header__profile"
+        aria-label="Mon profil"
+        (click)="closeMenu()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          width="26"
+          height="26"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+} @else if (variant === "auth") {
+  <header class="header header--auth">
+    <a routerLink="/" class="header__logo">
+      <img src="logo.png" alt="MDD" />
+    </a>
+  </header>
+}
