@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ArticleService } from '../../services/article.service';
 import { ThemeService } from '../../services/theme.service';
@@ -7,7 +7,7 @@ import { Theme } from '../../models/theme';
 
 @Component({
   selector: 'app-create-article',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './create-article.component.html',
   styleUrl: './create-article.component.scss',
 })
