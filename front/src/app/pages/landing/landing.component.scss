@@ -6,24 +6,37 @@
   justify-content: center;
   gap: var(--space-xl);
   padding: var(--space-lg);
+  @media (max-width: 600px) {
+  justify-content: flex-start;
+  padding-top: 18vh;
+  gap: 64px;
+}
 }
 
 .landing__logo {
   width: 412px;
   max-width: 80%;
   height: auto;
+
+  @media (max-width: 600px) {
+    width: 225px;
+  }
 }
 
 .landing__actions {
   display: flex;
   gap: var(--space-md);
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 40px;
+  }
 }
 
 .landing__btn {
   min-width: 180px;
   padding: 10px var(--space-lg);
   text-align: center;
-  font-weight: 600;
   background: #ffffff;
   border: 1px solid #000000;
   border-radius: 8px;
@@ -32,11 +45,4 @@
 .landing__btn:hover {
   background: var(--color-bg-alt);
   text-decoration: none;
-}
-
-/* Mobile : boutons empilés (comme la maquette) */
-@media (max-width: 600px) {
-  .landing__actions {
-    flex-direction: column;
-  }
 }
