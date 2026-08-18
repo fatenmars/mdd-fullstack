@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ArticleService } from '../../services/article.service';
 import { ArticleDetail } from '../../models/articleDetail';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-article-detail',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink, DatePipe],
   templateUrl: './article-detail.component.html',
   styleUrl: './article-detail.component.scss',
 })
