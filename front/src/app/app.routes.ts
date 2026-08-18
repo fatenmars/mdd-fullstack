@@ -7,9 +7,12 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guards/auth.guard';
+import { LandingComponent } from './pages/landing/landing.component';
+import { loggedInMatch } from './guards/logged-in.match';
 
 export const routes: Routes = [
-  { path: '', component: FeedComponent, canActivate: [authGuard] },
+  { path: '', component: FeedComponent, canMatch: [loggedInMatch] },
+  { path: '', component: LandingComponent },
   {
     path: 'articles/new',
     component: CreateArticleComponent,
