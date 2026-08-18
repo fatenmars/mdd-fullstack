@@ -111,3 +111,9 @@ input:focus, textarea:focus, select:focus {
   font-size: var(--text-sm);
   text-align: center;
 }
+.auth-form small {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+.auth-form input { border-color: var(--color-text); }

@@ -1,26 +1,24 @@
-<h1>S'inscrire</h1>
-
-@if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-}
-
-<form (ngSubmit)="onSubmit()">
-  <label>
-    Email :
-    <input type="email" name="email" [(ngModel)]="email" />
-  </label>
-  <label>
-    Username :
-    <input type="text" name="username" [(ngModel)]="username" />
-  </label>
-  <label>
-    Mot de passe :
-    <input type="password" name="password" [(ngModel)]="password" />
-    <small
-      >8 caractères minimum, avec majuscule, minuscule, chiffre et caractère
-      spécial.</small
-    >
-  </label>
-
-  <button type="submit">S'inscrire</button>
-</form>
+<app-auth-layout title="Inscription">
+  <form class="auth-form" (ngSubmit)="onSubmit()">
+    @if (errorMessage) {
+      <p class="auth-error">{{ errorMessage }}</p>
+    }
+    <label>
+      Nom d'utilisateur :
+      <input type="text" name="username" [(ngModel)]="username" />
+    </label>
+    <label>
+      Adresse e-mail :
+      <input type="email" name="email" [(ngModel)]="email" />
+    </label>
+    <label>
+      Mot de passe :
+      <input type="password" name="password" [(ngModel)]="password" />
+      <small
+        >8 caractères minimum, avec majuscule, minuscule, chiffre et caractère
+        spécial.</small
+      >
+    </label>
+    <button type="submit">S'inscrire</button>
+  </form>
+</app-auth-layout>
