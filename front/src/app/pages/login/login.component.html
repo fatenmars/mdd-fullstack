@@ -1,18 +1,16 @@
-<h1>Se connecter</h1>
-
-@if (errorMessage) {
-  <p>{{ errorMessage }}</p>
-}
-
-<form (ngSubmit)="onSubmit()">
-  <label>
-    E-mail ou nom d'utilisateur :
-    <input type="text" name="identifier" [(ngModel)]="identifier" />
-  </label>
-  <label>
-    Mot de passe :
-    <input type="password" name="password" [(ngModel)]="password" />
-  </label>
-
-  <button type="submit">Se connecter</button>
-</form>
+<app-auth-layout title="Se connecter">
+  <form class="auth-form" (ngSubmit)="onSubmit()">
+    @if (errorMessage) {
+      <p class="auth-error">{{ errorMessage }}</p>
+    }
+    <label>
+      E-mail ou nom d'utilisateur :
+      <input type="text" name="identifier" [(ngModel)]="identifier" />
+    </label>
+    <label>
+      Mot de passe :
+      <input type="password" name="password" [(ngModel)]="password" />
+    </label>
+    <button type="submit">Se connecter</button>
+  </form>
+</app-auth-layout>

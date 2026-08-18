@@ -1,7 +1,5 @@
 .auth {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: var(--space-xl) var(--space-lg);
+  padding: var(--space-lg) var(--space-xl);
 }
 
 .auth__back {
@@ -11,17 +9,27 @@
   cursor: pointer;
   color: #000000;
   display: inline-flex;
-  transition: color 0.15s ease;
 }
-.auth__back:hover {
-  color: var(--color-primary);
+.auth__back svg {
+  width: 28px;
+  height: 28px;
 }
 
-.auth__logo { display: none; }
+.auth__logo {
+  display: none;
+}
 
 .auth__title {
   text-align: center;
-  margin: var(--space-lg) 0 var(--space-xl);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #000000;
+  margin: var(--space-md) 0 var(--space-xl);
+}
+
+.auth__content {
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
