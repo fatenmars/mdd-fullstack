@@ -1,35 +1,28 @@
-<h1>Articles MDD</h1>
-<button (click)="logout()">Se déconnecter</button>
-<br />
-<a routerLink="/register">S'inscrire</a>
-<br />
-<a routerLink="/login">Se connecter</a>
-<br />
-<a routerLink="/profile">Profil</a>
-<br />
-<a routerLink="/articles/new">Créer un article</a>
-<br />
-<a routerLink="/themes">Thèmes</a>
-<br />
 @if (errorMessage) {
-  <p>{{ errorMessage }}</p>
+  <p class="feed__error">{{ errorMessage }}</p>
 } @else {
-  <button (click)="toggleOrder()">
-    Inverser le tri (actuel : {{ order }})
-  </button>
-  <ul>
-    @for (article of articles; track article.id) {
-      <li>
-        <a [routerLink]="['/articles', article.id]">
-          <strong>{{ article.title }}</strong>
-        </a>
-        <p>{{ article.content }}</p>
-        <p>
-          Auteur : {{ article.author.username }} — Thème :
-          {{ article.theme.title }}
-        </p>
-        <p>Publié le : {{ article.createdAt }}</p>
-      </li>
-    }
-  </ul>
+  <div class="feed">
+    <div class="feed__toolbar">
+      <a routerLink="/articles/new" class="feed__create">Créer un article</a>
+      <button type="button" class="feed__sort" (click)="toggleOrder()">
+        Trier par
+        <span>{{ order === "desc" ? "↓" : "↑" }}</span>
+      </button>
+    </div>
+
+    <ul class="feed__list">
+      @for (article of articles; track article.id) {
+        <li class="card">
+          <a [routerLink]="['/articles', article.id]" class="card__title">{{
+            article.title
+          }}</a>
+          <div class="card__meta">
+            <span>{{ article.createdAt | date: "dd/MM/yyyy" }}</span>
+            <span>{{ article.author.username }}</span>
+          </div>
+          <p class="card__excerpt">{{ article.content }}</p>
+        </li>
+      }
+    </ul>
+  </div>
 }
