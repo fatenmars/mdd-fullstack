@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.orion.mddapi.dto.SubscriptionThemeDto;
 import com.orion.mddapi.dto.ThemeDto;
 import com.orion.mddapi.dto.UpdateProfileRequest;
 import com.orion.mddapi.dto.UserProfileDto;
@@ -29,8 +30,13 @@ public class UserService {
 
     public UserProfileDto getCurrentUserProfile() {
         User currentUser = this.authenticatedUserProvider.getCurrentUser();
-        List<ThemeDto> subscriptions = this.subscriptionRepository.findAllByUserId(currentUser.getId()).stream()
-                .map(sub -> new ThemeDto(sub.getTheme().getId(), sub.getTheme().getTitle())).toList();
+        List<SubscriptionThemeDto> subscriptions = this.subscriptionRepository.findAllByUserId(currentUser.getId())
+                .stream()
+                .map(sub -> new SubscriptionThemeDto(
+                        sub.getTheme().getId(),
+                        sub.getTheme().getTitle(),
+                        sub.getTheme().getDescription()))
+                .toList();
 
         UserProfileDto userProfile = new UserProfileDto(currentUser.getEmail(), currentUser.getUsername(),
                 subscriptions);
