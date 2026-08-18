@@ -1,0 +1,28 @@
+<section class="auth">
+  <button
+    type="button"
+    class="auth__back"
+    (click)="goBack()"
+    aria-label="Retour"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  </button>
+
+  <img src="logo.png" alt="MDD" class="auth__logo" />
+
+  <h1 class="auth__title">{{ title }}</h1>
+
+  <div class="auth__content">
+    <ng-content></ng-content>
+  </div>
+</section>
