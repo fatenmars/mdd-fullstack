@@ -1,11 +1,9 @@
 package com.orion.mddapi.services;
 
 import java.util.List;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.orion.mddapi.dto.SubscriptionThemeDto;
-import com.orion.mddapi.dto.ThemeDto;
 import com.orion.mddapi.dto.UpdateProfileRequest;
 import com.orion.mddapi.dto.UserProfileDto;
 import com.orion.mddapi.entities.User;
