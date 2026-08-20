@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+/**
+ * Génère et valide les tokens JWT servant à authentifier les requêtes.
+ * La clé de signature (HMAC-SHA) et la durée de validité sont lues depuis la
+ * configuration ({@code jwt.secret} et {@code jwt.expiration}).
+ */
 @Service
 public class JwtService {
 
@@ -21,6 +26,7 @@ public class JwtService {
         this.expirationMs = expirationMs;
     }
 
+    /** Crée un token signé pour un utilisateur, valable pour la durée configurée. */
     public String generateToken(String username) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationMs);
@@ -32,6 +38,7 @@ public class JwtService {
                 .compact();
     }
 
+    /** Extrait le nom d'utilisateur (subject) contenu dans un token. */
     public String extractUsername(String token) {
         return Jwts.parser()
                 .verifyWith(key)
@@ -41,6 +48,7 @@ public class JwtService {
                 .getSubject();
     }
 
+    /** Indique si un token est authentique (signature vérifiée) et non expiré. */
     public boolean isValid(String token) {
         try {
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
