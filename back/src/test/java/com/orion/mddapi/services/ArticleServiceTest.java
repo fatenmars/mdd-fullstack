@@ -3,7 +3,6 @@ package com.orion.mddapi.services;
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.SubscriptionRepository;
 import com.orion.mddapi.repositories.ThemeRepository;
-import com.orion.mddapi.repositories.UserRepository;
 import com.orion.mddapi.security.AuthenticatedUserProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,9 +45,6 @@ class ArticleServiceTest {
 
     @Mock
     private ThemeRepository themeRepository;
-
-    @Mock
-    private UserRepository userRepository;
 
     @Mock
     private AuthenticatedUserProvider authenticatedUserProvider;

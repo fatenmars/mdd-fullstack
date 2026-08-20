@@ -3,7 +3,6 @@ package com.orion.mddapi.services;
 import org.springframework.stereotype.Service;
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.CommentRepository;
-import com.orion.mddapi.repositories.UserRepository;
 import com.orion.mddapi.security.AuthenticatedUserProvider;
 import com.orion.mddapi.entities.Comment;
 import com.orion.mddapi.entities.User;
@@ -21,7 +20,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final AuthenticatedUserProvider authenticatedUserProvider;
 
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository,
+    public CommentService(CommentRepository commentRepository,
             ArticleRepository articleRepository, AuthenticatedUserProvider authenticatedUserProvider) {
         this.commentRepository = commentRepository;
         this.articleRepository = articleRepository;

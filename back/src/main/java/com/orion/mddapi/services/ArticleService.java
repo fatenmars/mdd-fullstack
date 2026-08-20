@@ -18,7 +18,6 @@ import com.orion.mddapi.dto.CreateArticleRequest;
 import com.orion.mddapi.exceptions.ArticleNotFoundException;
 import com.orion.mddapi.exceptions.ThemeNotFoundException;
 import com.orion.mddapi.repositories.ThemeRepository;
-import com.orion.mddapi.repositories.UserRepository;
 import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 @Service
@@ -32,7 +31,7 @@ public class ArticleService {
 
         public ArticleService(ArticleRepository articleRepository, SubscriptionRepository subscriptionRepository,
                         CommentService commentService, ThemeRepository themeRepository,
-                        UserRepository userRespository, AuthenticatedUserProvider authenticatedUserProvider) {
+                        AuthenticatedUserProvider authenticatedUserProvider) {
                 this.articleRepository = articleRepository;
                 this.subscriptionRepository = subscriptionRepository;
                 this.commentService = commentService;
