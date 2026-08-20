@@ -26,6 +26,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
     }
 
+    /**
+     * Lit le token dans l'en-tête {@code Authorization} ; s'il est valide,
+     * authentifie l'utilisateur pour la durée de la requête, puis passe la main
+     * au filtre suivant de la chaîne.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
