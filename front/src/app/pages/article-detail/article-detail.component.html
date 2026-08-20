@@ -1,0 +1,74 @@
+@if (errorMessage) {
+  <p class="error">{{ errorMessage }}</p>
+} @else if (article) {
+  <article class="detail">
+    <header class="detail__head">
+      <a routerLink="/" class="detail__back" aria-label="Retour au fil">
+        <svg
+          viewBox="0 0 24 24"
+          width="28"
+          height="28"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </a>
+      <h1 class="detail__title">{{ article.title }}</h1>
+    </header>
+
+    <div class="detail__body">
+      <div class="detail__meta">
+        <span>{{ article.createdAt | date: "dd/MM/yyyy" }}</span>
+        <span>{{ article.author.username }}</span>
+        <span>{{ article.theme.title }}</span>
+      </div>
+
+      <p class="detail__content">{{ article.content }}</p>
+
+      <hr class="detail__divider" />
+
+      <h2 class="detail__comments-title">Commentaires</h2>
+
+      <ul class="comments">
+        @for (comment of article.comments; track comment.id) {
+          <li class="comment">
+            <span class="comment__author">{{ comment.author.username }}</span>
+            <p class="comment__bubble">{{ comment.content }}</p>
+          </li>
+        }
+      </ul>
+
+      <form class="comment-form" (ngSubmit)="addComment()">
+        <textarea
+          class="comment-form__input"
+          name="newComment"
+          [(ngModel)]="newComment"
+          placeholder="Écrivez ici votre commentaire"
+        ></textarea>
+        <button type="submit" class="comment-form__send" aria-label="Envoyer">
+          <svg
+            viewBox="0 0 24 24"
+            width="28"
+            height="28"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </form>
+      @if (commentError) {
+        <p class="error">{{ commentError }}</p>
+      }
+    </div>
+  </article>
+}

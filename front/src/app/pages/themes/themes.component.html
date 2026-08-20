@@ -1,0 +1,22 @@
+@if (errorMessage) {
+  <p class="themes__error">{{ errorMessage }}</p>
+} @else {
+  @if (subscribeErrorMessage) {
+    <p class="themes__error">{{ subscribeErrorMessage }}</p>
+  }
+  <ul class="themes">
+    @for (theme of themes; track theme.id) {
+      <li class="theme-card">
+        <h2 class="theme-card__title">{{ theme.title }}</h2>
+        <p class="theme-card__desc">{{ theme.description }}</p>
+        <button
+          class="theme-card__btn"
+          (click)="subscribeToTheme(theme.id)"
+          [disabled]="theme.subscribed"
+        >
+          {{ theme.subscribed ? "Déjà abonné" : "S'abonner" }}
+        </button>
+      </li>
+    }
+  </ul>
+}

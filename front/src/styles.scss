@@ -1,0 +1,119 @@
+:root {
+  /* Couleurs */
+  --color-primary: #7763C5;
+  --color-primary-dark: #59409e;
+  --color-text: #1f2933;
+  --color-text-muted: #6b7280;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f4fa;
+  --color-border: #e5e7eb;
+  --color-error: #d64545;
+
+  /* Typographie */
+  --font-base: "Inter", system-ui, sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+
+  /* Espacements */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Divers */
+  --radius: 8px;
+  --max-width: 900px;
+}
+/* Reset léger */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+/* Base */
+body {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+}
+
+h1 { font-size: var(--text-2xl); line-height: 1.2; }
+h2 { font-size: var(--text-xl);  line-height: 1.2; }
+h3 { font-size: var(--text-lg);  line-height: 1.3; }
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  font-size: var(--text-base);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: var(--text-base);
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  font-size: 16px;
+  color: #000000;
+}
+.auth-form button {
+  align-self: center;
+  margin-top: var(--space-sm);
+}
+.auth-error {
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+.auth-form small {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+.auth-form input { border-color: var(--color-text); }

@@ -1,0 +1,27 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Theme } from '../models/theme';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ThemeService {
+  private apiUrl = 'http://localhost:8080/themes';
+
+  constructor(private http: HttpClient) {}
+  getThemes(): Observable<Theme[]> {
+    return this.http.get<Theme[]>(this.apiUrl);
+  }
+  subscribe(themeId: number): Observable<void> {
+    return this.http.post<void>(
+      `http://localhost:8080/users/me/themes/${themeId}`,
+      {},
+    );
+  }
+  unsubscribe(themeId: number): Observable<void> {
+    return this.http.delete<void>(
+      `http://localhost:8080/users/me/themes/${themeId}`,
+    );
+  }
+}

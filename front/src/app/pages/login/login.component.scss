@@ -1,0 +1,35 @@
+.auth {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.auth__back {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #000000;
+  display: inline-flex;
+  transition: color 0.15s ease;
+}
+.auth__back:hover {
+  color: var(--color-primary);
+}
+
+.auth__logo { display: none; }
+
+.auth__title {
+  text-align: center;
+  margin: var(--space-lg) 0 var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .auth__logo {
+    display: block;
+    width: 180px;
+    max-width: 60%;
+    height: auto;
+    margin: var(--space-md) auto 0;
+  }
+}

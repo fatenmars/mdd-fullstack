@@ -1,0 +1,57 @@
+<section class="create">
+  <header class="create__head">
+    <a routerLink="/" class="create__back" aria-label="Retour au fil">
+      <svg
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </svg>
+    </a>
+    <h1 class="create__title">Créer un nouvel article</h1>
+  </header>
+
+  <form class="create__form" (ngSubmit)="onSubmit()">
+    @if (errorMessage) {
+      <p class="create__error">{{ errorMessage }}</p>
+    }
+
+    <select
+      class="create__field"
+      name="themeId"
+      [(ngModel)]="themeId"
+      aria-label="Thème"
+    >
+      <option [ngValue]="undefined" disabled>Sélectionner un thème</option>
+      @for (theme of themes; track theme.id) {
+        <option [ngValue]="theme.id">{{ theme.title }}</option>
+      }
+    </select>
+
+    <input
+      class="create__field"
+      type="text"
+      name="title"
+      [(ngModel)]="title"
+      placeholder="Titre de l'article"
+      aria-label="Titre de l'article"
+    />
+
+    <textarea
+      class="create__field create__content"
+      name="content"
+      [(ngModel)]="content"
+      placeholder="Contenu de l'article"
+      aria-label="Contenu de l'article"
+    ></textarea>
+
+    <button type="submit" class="create__submit">Créer</button>
+  </form>
+</section>

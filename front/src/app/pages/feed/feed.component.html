@@ -1,0 +1,28 @@
+@if (errorMessage) {
+  <p class="feed__error">{{ errorMessage }}</p>
+} @else {
+  <div class="feed">
+    <div class="feed__toolbar">
+      <a routerLink="/articles/new" class="feed__create">Créer un article</a>
+      <button type="button" class="feed__sort" (click)="toggleOrder()">
+        Trier par
+        <span>{{ order === "desc" ? "↓" : "↑" }}</span>
+      </button>
+    </div>
+
+    <ul class="feed__list">
+      @for (article of articles; track article.id) {
+        <li class="card">
+          <a [routerLink]="['/articles', article.id]" class="card__title">{{
+            article.title
+          }}</a>
+          <div class="card__meta">
+            <span>{{ article.createdAt | date: "dd/MM/yyyy" }}</span>
+            <span>{{ article.author.username }}</span>
+          </div>
+          <p class="card__excerpt">{{ article.content }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+}

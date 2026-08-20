@@ -1,0 +1,43 @@
+.auth {
+  padding: var(--space-lg) var(--space-xl);
+}
+
+.auth__back {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #000000;
+  display: inline-flex;
+}
+.auth__back svg {
+  width: 28px;
+  height: 28px;
+}
+
+.auth__logo {
+  display: none;
+}
+
+.auth__title {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #000000;
+  margin: var(--space-md) 0 var(--space-xl);
+}
+
+.auth__content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .auth__logo {
+    display: block;
+    width: 180px;
+    max-width: 60%;
+    height: auto;
+    margin: var(--space-md) auto 0;
+  }
+}
