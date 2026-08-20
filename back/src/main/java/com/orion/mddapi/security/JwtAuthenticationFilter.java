@@ -11,6 +11,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Filtre exécuté à chaque requête : si l'en-tête {@code Authorization} contient
+ * un token JWT valide, l'utilisateur correspondant est placé dans le contexte de
+ * sécurité de Spring. Sinon la requête continue sans authentification (et sera
+ * rejetée plus loin si la ressource est protégée).
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -39,6 +45,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Force ce filtre à s'exécuter aussi sur les dispatches d'erreur ({@code /error}).
+     * Par défaut Spring ne le fait pas : une erreur serveur serait alors vue comme
+     * non authentifiée et renverrait un 401 trompeur au lieu du vrai code d'erreur.
+     */
     @Override
     protected boolean shouldNotFilterErrorDispatch() {
         return false;
