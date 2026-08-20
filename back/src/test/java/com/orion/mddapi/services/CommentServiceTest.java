@@ -8,7 +8,6 @@ import com.orion.mddapi.entities.User;
 import com.orion.mddapi.exceptions.ArticleNotFoundException;
 import com.orion.mddapi.repositories.ArticleRepository;
 import com.orion.mddapi.repositories.CommentRepository;
-import com.orion.mddapi.repositories.UserRepository;
 import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 import org.junit.jupiter.api.DisplayName;
@@ -31,9 +30,6 @@ class CommentServiceTest {
 
     @Mock
     private CommentRepository commentRepository;
-
-    @Mock
-    private UserRepository userRepository;
 
     @Mock
     private ArticleRepository articleRepository;
