@@ -5,11 +5,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.orion.mddapi.dto.SubscriptionThemeDto;
 import com.orion.mddapi.dto.UpdateProfileRequest;
-import com.orion.mddapi.dto.UserProfileDto;
-import com.orion.mddapi.exceptions.UserAlreadyExistsException;
-import com.orion.mddapi.entities.User;
-import com.orion.mddapi.repositories.SubscriptionRepository;
-import com.orion.mddapi.repositories.UserRepository;
+import com.orion.mddapi.dto.UserProfileDto;import om.orion.mddapi.exceptions.UserAlreadyExistsException;
+import com.orion.mddapi.entities.User;import import o m.orion.mddapi.repositories.UserRepository;
 import com.orion.mddapi.security.AuthenticatedUserProvider;
 
 @Service
