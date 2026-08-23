@@ -45,5 +45,7 @@ describe('ThemesComponent', () => {
     component.subscribeToTheme(3);
     httpMock.expectOne('http://localhost:8080/users/me/themes/3').flush(null);
     httpMock.expectOne('http://localhost:8080/themes').flush([]);
+
+    expect(component.themes).toEqual([]);
   });
 });

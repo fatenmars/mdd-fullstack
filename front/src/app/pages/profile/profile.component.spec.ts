@@ -45,21 +45,31 @@ describe('ProfileComponent', () => {
 
     component.updateProfile();
     httpMock
-      .expectOne((r) => r.method === 'PUT' && r.url === 'http://localhost:8080/users/me')
+      .expectOne(
+        (r) => r.method === 'PUT' && r.url === 'http://localhost:8080/users/me',
+      )
       .flush(PROFILE);
     httpMock
-      .expectOne((r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me')
+      .expectOne(
+        (r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me',
+      )
       .flush(PROFILE);
+
+    expect(component.profile?.username).toBe('alice');
   });
 
-  it('unsubscribe supprime l\'abonnement puis recharge', () => {
+  it("unsubscribe supprime l'abonnement puis recharge", () => {
     fixture.detectChanges();
     httpMock.expectOne('http://localhost:8080/users/me').flush(PROFILE);
 
     component.unsubscribe(3);
     httpMock.expectOne('http://localhost:8080/users/me/themes/3').flush(null);
     httpMock
-      .expectOne((r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me')
+      .expectOne(
+        (r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me',
+      )
       .flush(PROFILE);
+
+    expect(component.profile?.username).toBe('alice');
   });
 });
