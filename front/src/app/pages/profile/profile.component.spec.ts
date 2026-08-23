@@ -50,6 +50,8 @@ describe('ProfileComponent', () => {
     httpMock
       .expectOne((r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me')
       .flush(PROFILE);
+
+    expect(component.profile?.username).toBe('alice');
   });
 
   it('unsubscribe supprime l\'abonnement puis recharge', () => {
@@ -61,5 +63,7 @@ describe('ProfileComponent', () => {
     httpMock
       .expectOne((r) => r.method === 'GET' && r.url === 'http://localhost:8080/users/me')
       .flush(PROFILE);
+
+    expect(component.profile?.username).toBe('alice');
   });
 });

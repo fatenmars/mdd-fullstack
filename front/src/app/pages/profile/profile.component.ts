@@ -68,7 +68,9 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         this.editErrorMessage =
-          'Impossible de mettre à jour le profil. Vérifie les champs.';
+          error.status === 409
+            ? "Cet e-mail ou ce nom d'utilisateur est déjà pris."
+            : 'Impossible de mettre à jour le profil. Vérifie les champs.';
         console.error('Erreur mise à jour profil :', error);
       },
     });
